@@ -60,10 +60,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Generate Doc
-        run: mkdir docs && echo "<h1>Hallo GitHub Pages!!!</h1>" > docs/index.html
+        run: mkdir docs && echo "<h1>Hallo GitHub Pages Nummer 2!!!</h1>" > docs/index.html
       - name: Deploy Doc
         uses: peaceiris/actions-gh-pages@v3
         with:
+          # For this to work the GITHUB_TOKEN needs read/write permissions, see the action-settings in github!
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #publish_branch: gh-pages
+          publish_branch: gh-pages-2
           publish_dir: ./docs
