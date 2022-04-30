@@ -1,5 +1,11 @@
 name: GitHub Actions Demo
+
 on: [push]
+
+# A global environment variable:
+env:
+  THE_ANSWER: "42"
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -40,3 +46,12 @@ jobs:
         run: echo '${{ toJSON(strategy) }}'
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
+  use_environment_variables:
+    runs-on: ubuntu-latest
+    env:
+      MY_OS: ubuntu
+    steps:
+      - name: "Say something"
+        run: echo "Hallo $NAME dein Betriebssystem ist $MY_OS und die Antwort lautet '$THE_ANSWER'."
+        env:
+          NAME: "Reini"
