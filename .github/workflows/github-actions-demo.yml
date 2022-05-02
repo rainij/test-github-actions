@@ -1,0 +1,70 @@
+name: GitHub Actions Demo
+
+on: [push]
+
+# A global environment variable:
+env:
+  THE_ANSWER: "42"
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  dump_contexts_to_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump github.repository
+        id: github_repository_step
+        run: echo '${{ github.repository }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+  use_environment_variables:
+    runs-on: ubuntu-latest
+    env:
+      MY_OS: ubuntu
+    steps:
+      - name: "Say something"
+        run: echo "Hallo $NAME dein Betriebssystem ist $MY_OS und die Antwort lautet '$THE_ANSWER'."
+        env:
+          NAME: "Reini"
+  demo_gh_pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate Doc
+        run: mkdir docs && echo "<h1>Hallo GitHub Pages Nummer 2!!!</h1>" > docs/index.html
+      - name: Deploy Doc
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # For this to work the GITHUB_TOKEN needs read/write permissions, see the action-settings in github!
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages-2
+          publish_dir: ./docs
