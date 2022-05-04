@@ -1,0 +1,15 @@
+name: More Actions
+
+on: [push]
+
+jobs:
+  inspect_env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "GITHUB_BASE_REF $GITHUB_BASE_REF"
+      - run: echo "GITHUB_HEAD_REF $GITHUB_HEAD_REF"
+      - run: echo "GITHUB_REF $GITHUB_REF"
+      - run: echo "GITHUB_SHA $GITHUB_SHA"
+      # Does the following even exist?
+      - run: echo "GITHUB_COMMIT_RANGE $GITHUB_COMMIT_RANGE"
