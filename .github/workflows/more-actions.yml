@@ -15,3 +15,4 @@ jobs:
       - run: echo "GITHUB_COMMIT_RANGE '$GITHUB_COMMIT_RANGE'"
       - name: Dump github context
         run: echo '${{ toJSON(github) }}'
+      - run: exit 2
